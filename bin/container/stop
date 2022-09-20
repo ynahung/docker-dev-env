@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+source bin/utils.sh
+run_on_remote_host
+
+get_CONTAINER_NAME
+run docker stop $CONTAINER_NAME
+
+remove_network

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+source bin/utils.sh
+
+docker build -t $IMAGE_NAME docker/core

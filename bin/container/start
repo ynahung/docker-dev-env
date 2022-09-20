@@ -1,0 +1,33 @@
+#! /usr/bin/env bash
+source bin/utils.sh
+run_on_remote_host
+
+container_tag=$1
+[[ ! -z $container_tag ]] && container_tag="_$container_tag"
+
+container_name="${CONTAINER_PREFIX}${container_tag}"
+echo "starting container ${container_name}"
+
+jupyter_port=$(find_free_port $JUPYTER_PORT_RANGE)
+tensorboard_port=$(find_free_port $TENSORBOARD_PORT_RANGE)
+
+create_network
+
+docker run -it --rm -d \
+-p ${jupyter_port}:8888 \
+-p ${tensorboard_port}:6006 \
+--user "${UID}:$(id -g)" \
+--workdir="/home/${USER}" \
+--name $container_name \
+--hostname $container_name \
+--network $NETWORK_NAME \
+-v /etc/passwd:/etc/passwd:ro \
+-v /etc/group:/etc/group:ro \
+-e SSH_AUTH_SOCK=/ssh-agent \
+-v $SSH_AUTH_SOCK:/ssh-agent \
+-v ${PWD}/@:/home/${USER} \
+$IMAGE_NAME /bin/bash
+
+# start jupyter server
+#docker exec -d $container_name jupyter notebook \
+#--no-browser --ip=0.0.0.0 --port=8888 --notebook-dir=@/notebooks

@@ -162,7 +162,7 @@ get_CONTAINER_NAME() {
   fi
 }
 
-declare -A PARAMS=()
+declare -a PARAMS=()
 _argv=()
 for var in "$@" ; do
     if [[ "$var" =~ ^[a-z_]+=[^=]+$ ]]; then

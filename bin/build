@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
 source bin/utils.sh
+run_on_remote_host
 
 docker build -t $IMAGE_NAME docker/core

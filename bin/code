@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+source bin/utils.sh
+
+get_CONTAINER_NAME
+
+HEX_CONTAINER_NAME=$(printf $CONTAINER_NAME | od -A n -t x1 | tr -d '[\n\t ]')
+
+FOLDER_URI="vscode-remote://attached-container+${HEX_CONTAINER_NAME}${CONTAINER_ROOT}"
+echo $FOLDER_URI
+code --folder-uri=$FOLDER_URI

@@ -25,7 +25,7 @@ docker run -it --rm -d \
 -v /etc/group:/etc/group:ro \
 -e SSH_AUTH_SOCK=/ssh-agent \
 -v $SSH_AUTH_SOCK:/ssh-agent \
--v ${PWD}/@:/home/${USER} \
+-v ${PWD}/@:$CONTAINER_ROOT \
 $IMAGE_NAME /bin/bash
 
 # start jupyter server

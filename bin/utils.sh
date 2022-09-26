@@ -23,6 +23,8 @@ run()         { echo $*; $*; }
 start_TIMER() { TIMER=$(date +%s); }
 stop_TIMER()  { TIMER=$(($(date +%s) - $TIMER)); }
 
+remote_exec() { ssh $REMOTE_HOST "cd $REMOTE_PWD; $*"; }
+
 # running script on remote server with hostname $REMOTE_HOST
 run_on_remote_host() {
   if [[ ! $(hostname) == $REMOTE_HOST ]]; then 

@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 source bin/utils.sh
+
+#move vscode/image_name.json to /Users/alex/Library/Application Support/Code/User/globalStorage/ms-vscode-remote.remote-containers/imageConfigs/{image_name}.json
+if [[ ! $(hostname) == $REMOTE_HOST ]]; then 
+  ls /Users
+  cp vscode/image_name.json "/Users/$USER/Library/Application Support/Code/User/globalStorage/ms-vscode-remote.remote-containers/imageConfigs/$IMAGE_NAME.json"
+fi
+
 run_on_remote_host
 
 docker build -t $IMAGE_NAME docker/core

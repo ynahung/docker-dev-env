@@ -125,6 +125,20 @@ find_free_port() {
   | shuf | head -n 1
 }
 
+find_free_gpu() {
+    count=${1:-1}
+    echo $(nvidia-smi \
+        --query-gpu=memory.used,index \
+        --format=csv \
+        | tail -n +2 \
+        | sort -n \
+        | head -$count \
+        | awk '{print $NF}' \
+        | tr '\n' ',' \
+        | sed -E 's/,$//'
+        )
+}
+
 # return number of containers with $CONTAINER_PREFIX inside their names (default) or $1 inside their names.
 # usage: container_count, container_count $PART_OF_THE_NAME
 container_count() {

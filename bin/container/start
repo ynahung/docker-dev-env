@@ -5,6 +5,9 @@ run_on_remote_host
 container_tag=$1
 [[ ! -z $container_tag ]] && container_tag="_$container_tag"
 
+gpu=$(find_free_gpu)
+gpu_tag=$(sed 's/,//' <<< $gpu)
+
 container_name="${CONTAINER_PREFIX}${container_tag}"
 echo "starting container ${container_name}"
 
@@ -21,6 +24,8 @@ docker run -it --rm -d \
 --name $container_name \
 --hostname $container_name \
 --network $NETWORK_NAME \
+--runtime=nvidia \
+-e NVIDIA_VISIBLE_DEVICES=${gpu}  \
 -v /etc/passwd:/etc/passwd:ro \
 -v /etc/group:/etc/group:ro \
 -e SSH_AUTH_SOCK=/ssh-agent \

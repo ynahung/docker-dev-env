@@ -8,7 +8,7 @@ container_tag=$1
 gpu=$(find_free_gpu)
 gpu_tag=$(sed 's/,//' <<< $gpu)
 
-container_name="${CONTAINER_PREFIX}${container_tag}"
+container_name="${CONTAINER_PREFIX}_gpu${gpu_tag}${container_tag}"
 echo "starting container ${container_name}"
 
 jupyter_port=$(find_free_port $JUPYTER_PORT_RANGE)

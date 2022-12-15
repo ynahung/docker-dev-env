@@ -9,4 +9,4 @@ fi
 
 run_on_remote_host
 
-docker build -t $IMAGE_NAME docker/core
+docker build -t $IMAGE_NAME docker/core --build-arg user=$USER --build-arg env_name=$ENV_NAME

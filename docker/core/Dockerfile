@@ -1,6 +1,9 @@
 FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
 ENV DEBIAN_FRONTEND=noninteractive
 
+ENV BASH_ENV ~/.bashrc
+SHELL ["/bin/bash", "-c"]
+
 ARG user
 ARG env_name
 
@@ -20,4 +23,6 @@ COPY "env.yml" "/home/${user}/miniconda3/env.yml"
 RUN conda update -n base -c defaults conda
 RUN conda env create -f "/home/${user}/miniconda3/env.yml"
 RUN conda init bash
-RUN echo "export PATH=$PATH:/home/${user}/miniconda3/envs/${ENV_NAME}/bin && conda config --set auto_activate_base false && source activate ${ENV_NAME}' && cd app" >> "/home/${user}/.bashrc"
+RUN echo "export PATH=$PATH:/home/${user}/miniconda3/envs/${env_name}/bin && conda config --set auto_activate_base false && source activate ${env_name} && cd app" >> "/home/${user}/.bashrc"
+
+ENV CONDA_DEFAULT_ENV ${env_name}

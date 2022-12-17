@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+source bin/utils.sh
+
+get_CONTAINER_NAME
+
+jupyter_port=$(remote_exec docker port $CONTAINER_NAME | grep '8888' | grep '0.0.0.0' | cut -d: -f2)
+
+local_url=$(remote_exec docker exec $CONTAINER_NAME "conda run -n $ENV_NAME jupyter notebook list"  \
+    | grep http \
+    | head -1 \
+    | awk '{print $1}')
+
+
+remote_url=$(sed "s/0.0.0.0:8888/${REMOTE_HOST}:${jupyter_port}/" <<< $local_url)
+echo $remote_url, $local_url
+echo "opening jupyter notebook at $remote_url"
+open $remote_url

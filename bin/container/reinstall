@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+source bin/utils.sh
+run_on_remote_host
+
+get_CONTAINER_NAME
+
+cp configs/requirements.txt @/requirements.txt
+
+bin/container/exec pip freeze | xargs pip uninstall -y \
+pip install -r requirements.txt
+
+rm requirements.txt

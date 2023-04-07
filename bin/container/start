@@ -33,6 +33,4 @@ docker run -it --rm -d \
 -v ${PWD}/@:$CONTAINER_ROOT \
 $IMAGE_NAME /bin/bash
 
-# start jupyter server
-#docker exec -d $container_name jupyter notebook \
-#--no-browser --ip=0.0.0.0 --port=8888 --notebook-dir=@/notebooks
+

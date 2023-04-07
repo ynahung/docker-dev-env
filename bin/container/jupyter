@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+source bin/utils.sh
+run_on_remote_host
+
+get_CONTAINER_NAME
+
+tmp=$(docker container port ${CONTAINER_NAME} 8888 | cut -d " " -f 1)
+port="${tmp: -4}"
+
+docker exec -d $CONTAINER_NAME jupyter notebook \
+--no-browser --ip=0.0.0.0 --port=8888 --notebook-dir=@/notebooks
+
+echo "Opening https://1.65.184.24:$port"
+open "https://1.65.184.24:$port"

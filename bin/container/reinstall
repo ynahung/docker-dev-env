@@ -2,11 +2,16 @@
 source bin/utils.sh
 run_on_remote_host
 
-get_CONTAINER_NAME
+if [ $# -gt 0 ]; then
+    CONTAINER_NAME=$1
+else
+    get_CONTAINER_NAME
+fi
+
+echo
+echo "Installing pip packages..."
+echo 
 
 cp configs/requirements.txt @/requirements.txt
 
-bin/container/exec pip freeze | xargs pip uninstall -y \
-pip install -r requirements.txt
-
-rm requirements.txt
+rm -r @/requirements.txt

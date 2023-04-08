@@ -2,10 +2,16 @@
 source bin/utils.sh
 run_on_remote_host
 
-get_CONTAINER_NAME
+if [ $# -gt 0 ]; then
+    CONTAINER_NAME=$1
+else
+    get_CONTAINER_NAME
+fi
 
 tmp=$(docker container port ${CONTAINER_NAME} 8888 | cut -d " " -f 1)
 port="${tmp: -4}"
 
-echo "Opening https://1.65.184.24:$port"
-open "https://1.65.184.24:$port"
+url=$(docker exec -it $CONTAINER_NAME ~/.local/bin/jupyter notebook list | tail -1 | cut -d " " -f 1)
+public_ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+
+echo Jupyter notebook url: $(echo $url | sed "s/http:\/\/0\.0\.0\.0:8888/http:\/\/$public_ip:$port/g")

@@ -10,14 +10,12 @@ gpu_tag=$(sed 's/,//' <<< $gpu)
 
 container_name="${CONTAINER_PREFIX}_gpu${gpu_tag}${container_tag}"
 echo "starting container ${container_name}"
-
-jupyter_port=$(find_free_port $JUPYTER_PORT_RANGE)
 tensorboard_port=$(find_free_port $TENSORBOARD_PORT_RANGE)
 
 create_network
 
 docker run -it --rm -d \
--p ${jupyter_port}:8888 \
+-p ${JUPYTER_PORT}:8888 \
 -p ${tensorboard_port}:6006 \
 --user "${UID}:$(id -g)" \
 --workdir="/home/${USER}" \
@@ -35,5 +33,6 @@ $IMAGE_NAME /bin/bash
 
 bin/container/reinstall $container_name
 
-docker exec -d $container_name jupyter notebook \
+docker exec -d $container_name ~/.local/bin/jupyter notebook \
 --no-browser --ip=0.0.0.0 --port=8888 --notebook-dir=@/notebooks
+

@@ -8,10 +8,7 @@ else
     get_CONTAINER_NAME
 fi
 
-echo
-echo "Installing pip packages..."
-echo 
-
 cp configs/requirements.txt @/requirements.txt
-
+rm -rf @/.local
+docker exec -it $CONTAINER_NAME pip install -r @/requirements.txt > /dev/null 2>&1
 rm -r @/requirements.txt

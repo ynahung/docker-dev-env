@@ -4,8 +4,8 @@ _ARGV="$@"
 
 source .env
 
-IMAGE_NAME="$(basename $PWD)"
-CONTAINER_PREFIX="$(basename $PWD)_${USER}"
+IMAGE_NAME="$(basename $PWD | tr '[:upper:]' '[:lower:]')"
+CONTAINER_PREFIX="$(basename $PWD | tr '[:upper:]' '[:lower:]')_${USER}"
 REMOTE_PWD="$(echo $PWD | sed -e 's/^\/Users/\/home/')"
 NETWORK_NAME="$(basename $PWD)_default"
 
